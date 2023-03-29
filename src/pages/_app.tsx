@@ -6,7 +6,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Native WebRTC API with NextJS</title>
+        <title>Room</title>
         <meta name="description" content="Use Native WebRTC API for video conferencing" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

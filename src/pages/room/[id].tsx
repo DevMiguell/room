@@ -27,7 +27,7 @@ const Room = () => {
   const hostRef: any = useRef(false);
 
   const { id: roomName } = router.query;
-  
+
   useEffect(() => {
     socketRef.current = io();
     // First we join a room
@@ -77,7 +77,7 @@ const Room = () => {
       });
   };
 
-  
+
 
   const handleRoomCreated = () => {
     hostRef.current = true;
@@ -85,7 +85,7 @@ const Room = () => {
       .getUserMedia({
         audio: {
           echoCancellation: true,
-          noiseSuppression: true, 
+          noiseSuppression: true,
         },
         video: { width: 500, height: 500 },
       })
@@ -256,19 +256,65 @@ const Room = () => {
   };
 
   return (
-    <div>
-      <video autoPlay ref={userVideoRef} />
-      <video autoPlay ref={peerVideoRef} />
-      <button onClick={toggleMic} type="button">
-        {micActive ? 'Mute Mic' : 'UnMute Mic'}
-      </button>
-      <button onClick={leaveRoom} type="button">
-        Leave
-      </button>
-      <button onClick={toggleCamera} type="button">
-        {cameraActive ? 'Stop Camera' : 'Start Camera'}
-      </button>
-    </div>
+    <main className="max-w-7xl mx-auto py-8 flex flex-col align-center justify-between h-screen">
+      <div className="flex justify-between gap-4 flex-wrap">
+        <video className="rounded-3xl" autoPlay ref={userVideoRef} />
+        <video className="rounded-3xl" autoPlay ref={peerVideoRef} />
+      </div>
+
+      <div className="flex justify-between">
+        <button 
+        onClick={() => navigator.clipboard.writeText(window.location.href)}
+        className="bg-zinc-700 flex items-center gap-4 px-6 rounded-lg">
+          <p>{roomName}</p> 
+          <span className="text-4xl text-zinc-500">|</span> 
+          <i className="mdi mdi-content-copy text-2xl" />
+        </button>
+
+        <div className="flex gap-4">
+          <button className={`
+          ${micActive ? "bg-zinc-700" : "bg-red-700"}
+          rounded-lg 
+          h-16
+          w-16
+          flex
+          justify-center
+          items-center
+        `}
+            onClick={toggleMic}
+            type="button">
+            {/* {micActive ? 'Mute Mic' : 'UnMute Mic'} */}
+            <i className={`mdi ${micActive ? "mdi-microphone" : "mdi-microphone-off"} text-3xl`} />
+          </button>
+
+          <button className={`
+          ${cameraActive ? "bg-zinc-700" : "bg-red-700"}
+          rounded-lg 
+          h-16
+          w-16
+          flex
+          justify-center
+          items-center
+        `}
+            onClick={toggleCamera}
+            type="button">
+            {/* {cameraActive ? 'Stop Camera' : 'Start Camera'} */}
+            <i className={`mdi ${cameraActive ? "mdi-video" : "mdi-video-off"} text-3xl`} />
+          </button>
+
+        </div>
+
+        <button className="
+          bg-red-500
+          rounded-lg 
+          px-6
+        "
+          onClick={leaveRoom}
+          type="button">
+          Leave Meet
+        </button>
+      </div>
+    </main>
   );
 };
 
